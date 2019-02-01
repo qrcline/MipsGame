@@ -18,9 +18,10 @@ linefeed:		.asciiz	"\n"
 
 main: 
 
-addi   $t0, $0, 4  #Hardcode of secret number
-addi   $t1, $0, 0  #Stores the number of guesses
-addi   $t2, $0, 10 #This is the max number of tries
+addi   $t0, $0, 4		 #Hardcode of secret number
+addi   $t1, $0, 0		 #Stores the number of guesses
+addi   $t2, $0, 10		 #This is the max number of tries
+addi   $t3, $0,1		 #Stores value 1
 
 
 # display "Hello" message
@@ -41,15 +42,15 @@ while:
 		move	$s0,$v0			# move the resulting int to $s0
 
 
-	beq $s0,$st0,winner   #If input number is correct jump to winner 
+	beq $s0,$t0,winner   #If input number is correct jump to winner 
 	beq $s1,$t2, looser #If limit reached you loose
-	addi $t1, $0, 1
+	addi $t1, $t1, 1  #increments guess counter
 
 	
 	
 	li $s7,0  #Used as flag for less than or greater than
-	slt $st0,$s0,$s7 # If the number guess < secretNum $s7=1 else $s7=0
-	beq $s7,$0, greater
+	slt $s7,$s0,$t0 # If the number guess < secretNum $s7=1 else $s7=0
+	beq $s7,$0, greater #Jumps to greater
 
 	#Less than
 	# display "guessLow" message
@@ -65,7 +66,7 @@ while:
 	la	$a0,guessHigh		# point $a0 to guessHigh
 	syscall				# print the string
 
-	j while go back to top of while
+	j while # go back to top of while
 
 
 winner:
