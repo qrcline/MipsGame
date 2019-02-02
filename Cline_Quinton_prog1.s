@@ -12,14 +12,16 @@ guessLow:		 .asciiz "Your guess is low\n"
 loose:			.asciiz "Sorry you lost, thanks for playing.\n"
 win:			.asciiz "Winner, Total guesses: \n"
 linefeed:		.asciiz	"\n"
+secretNumber:	.word  88
+
 
 
     .text
 
 main: 
 
-addi   $t0, $0, 4		 #Hardcode of secret number
-addi   $t1, $0, 0		 #Stores the number of guesses
+lw   $t0, secretNumber($0)	 #Hardcode of secret number
+addi   $t1, $0, 1		 #Stores the number of guesses
 addi   $t2, $0, 10		 #This is the max number of tries
 addi   $t3, $0,1		 #Stores value 1
 
@@ -43,7 +45,7 @@ while:
 
 
 	beq $s0,$t0,winner   #If input number is correct jump to winner 
-	beq $s1,$t2, looser #If limit reached you loose
+	beq $t1,$t2, looser #If limit reached you loose
 	addi $t1, $t1, 1  #increments guess counter
 
 	
